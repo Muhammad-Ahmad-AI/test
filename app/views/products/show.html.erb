@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 <p>
   <strong>Name:</strong>
@@ -29,6 +29,38 @@
   <strong>User:</strong>
   <%= @product.user %>
 </p>
+
+<% @comments.each do |comment| %>
+        <strong>Comment:</strong>
+        <%= comment.content %>
+    <% end %>
+<h1>
+
+
+
+
+<%if current_user%>
+<%if @product.user_id != current_user.id %>
+<form action="/comments/new" method="post">
+  <label for="content">Comment:</label>
+  <input type="text" name="content" id="content">
+  <input type="hidden" name="product_id" value="<%= @product.id %>">
+  <input type="hidden" name="user_id" value="<%= current_user.id %>">
+  <input type="submit" value="Submit">
+</form>
+<%else%>
+
+<h1>You cannot Add Comment</h1>
+
+<%end%>
+
+<%end%>
+
+
+
+
+<br>
+<br>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>

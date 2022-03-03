@@ -8,6 +8,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1 or /products/1.json
   def show
+    @comments = Comment.where(product_id: @product.id)
   end
 
   # GET /products/new
@@ -56,6 +57,24 @@ class ProductsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def search
+    @products = Product.where("name LIKE ?", "%#{params[:q]}%")
+    render :index
+  end
+
+  def search_by_category
+    @products = Product.where("category LIKE ?", "%#{params[:q]}%")
+    render :index
+  end
+
+  def my_products
+    @products = Product.where(user_id: current_user.id)
+    render :index
+  end
+
+  
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
