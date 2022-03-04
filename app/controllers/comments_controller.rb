@@ -13,26 +13,48 @@ class CommentsController < ApplicationController
   # GET /comments/new
   def new
     @comment = Comment.new
+    # @comment = current_user.comments.new(comment_params)
   end
 
   # GET /comments/1/edit
   def edit
-    
+
   end
 
   # POST /comments or /comments.json
   def create
-    @comment = Comment.new(comment_params)
-
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to comment_url(@comment), notice: "Comment was successfully created." }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    # @comment = Comment.new(comment_params_p)
+    @comment = current_user.comments.new(comment_params_p)
+    if !@comment.save
+      flash[:error] = @comment.errors.full_messages
     end
+    if @comment.save
+      redirect_to product_path(params[:product_id])
+    end
+
+    # @comment = Comment.new(comment_params)
+
+    # respond_to do |format|
+    # #   if @comment.save
+    # #     format.html { redirect_to comment_url(@comment), notice: "Comment was successfully created." }
+    # #     format.json { render :show, status: :created, location: @comment }
+    # #   else
+    # #     format.html { render :new, status: :unprocessable_entity }
+    # #     format.json { render json: @comment.errors, status: :unprocessable_entity }
+    # #   end
+    # # end
+    # @comment = @post.comments.create(comment_params)
+    # respond_to do |format|
+    #     if  @comment.save
+    #         format.html { redirect_to @product, notice: 'Comment was successfully created.' }
+    #         # NOTE COMMENT STEP 1: This will run the code in `app/views/comments/create.js.erb`.
+    #         format.js
+    #     else
+    #         format.html { render action: "new" }
+    #         # NOTE COMMENT STEP 1: This will run the code in `app/views/comments/create.js.erb`.
+    #         format.js
+    #     end
+    # end
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json
@@ -65,7 +87,13 @@ class CommentsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def comment_params
-      params.require(:comment).permit(:content, :user_id, :product_id)
+    def comment_params_p
+      
+      params.require(:comment).permit(:content).merge(product_id: params[:product_id])
     end
+
+    def comment_params
+      params.require(:comment).permit(:content, :user_id ,:product_id)
+    end
+
 end

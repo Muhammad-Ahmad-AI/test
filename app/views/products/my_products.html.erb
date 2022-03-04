@@ -1,0 +1,21 @@
+<h1>Products</h1>
+<div class="product-container ">
+    <% @products.each do |product| %>
+    <%if product.user_id == current_user.id%>
+       <div class="product-card card primary">
+          <img src="img/service3.png">
+          <h2><%= product.name %> <span><%= product.price %></span></h2>
+          <h4><%= product.description %></h4>
+          <%= link_to 'Show', product %>
+          <% if product.quantity > 0 %>
+            <%# <%= link_to 'Add to cart', cart_path(product_id: product.id) %> %>
+          <% else %>
+              Out of stock
+          <% end %>
+       </div>
+       <%end%>
+    <% end %>
+</div>
+<br>
+
+<%= link_to 'New Product', new_product_path %>

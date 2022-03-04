@@ -1,5 +1,8 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy,:my_products]
+  skip_before_action :verify_authenticity_token
+  # before_action :filter_products, only: [:my_products]
 
   # GET /products or /products.json
   def index
@@ -68,18 +71,26 @@ class ProductsController < ApplicationController
     render :index
   end
 
-  def my_products
-    @products = Product.where(user_id: current_user.id)
-    render :index
-  end
+  # def my_products
+  # end
 
-  
+
 
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
+    end
+
+    def authenticate_user!
+      if !user_signed_in?
+        redirect_to new_user_session_path
+      end
+    end
+
+    def filter_products
+      @products = Product.where(user_id: current_user.id)
     end
 
     # Only allow a list of trusted parameters through.

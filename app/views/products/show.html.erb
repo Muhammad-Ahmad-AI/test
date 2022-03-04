@@ -30,24 +30,27 @@
   <%= @product.user %>
 </p>
 
-<% @comments.each do |comment| %>
-        <strong>Comment:</strong>
-        <%= comment.content %>
-    <% end %>
-<h1>
-
-
 
 
 <%if current_user%>
 <%if @product.user_id != current_user.id %>
-<form action="/comments/new" method="post">
+<form action="/products/<%= @product.id %>/comments" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <label for="content">Comment:</label>
-  <input type="text" name="content" id="content">
-  <input type="hidden" name="product_id" value="<%= @product.id %>">
-  <input type="hidden" name="user_id" value="<%= current_user.id %>">
+  <input type="text" name="comment[content]" id="content">
   <input type="submit" value="Submit">
 </form>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h4>Comments:</h4>
+    </div>
+    <%# NOTE COMMENT STEP 3: Wrap the comments in `<div id="comments">` so that you can select the wrapper when using javascript in `app/views/comments/create.js.erb`. %>
+    <div id="comments" class="card-body">
+        <%= render @product.comments %>
+        <%= render "comments/form", product: @product %>
+    </div>
+</div>
 <%else%>
 
 <h1>You cannot Add Comment</h1>
@@ -55,6 +58,7 @@
 <%end%>
 
 <%end%>
+
 
 
 
