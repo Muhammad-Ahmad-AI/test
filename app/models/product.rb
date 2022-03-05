@@ -4,6 +4,6 @@ class Product < ApplicationRecord
   has_many :orders
   has_many :carts
   has_many :carts, through: :line_items
-  has_many :line_items
+  has_many :line_items , as: :line_itemable
   has_many :orders, through: :line_items
 end

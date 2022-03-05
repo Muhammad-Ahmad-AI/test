@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  unit_price: 1
+  quantity: 1
+  total_price: 1
+  product: one
+  line_itemable: one
+  line_itemable_type: Line itemable
+
+two:
+  unit_price: 1
+  quantity: 1
+  total_price: 1
+  product: two
+  line_itemable: two
+  line_itemable_type: Line itemable
