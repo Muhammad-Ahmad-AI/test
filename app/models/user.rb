@@ -7,5 +7,5 @@ class User < ApplicationRecord
   has_many :orders
   has_many :comments
   has_one :cart
-  has_many :orders, through: :line_items
+  has_many :line_items, as: :line_itemable
 end
