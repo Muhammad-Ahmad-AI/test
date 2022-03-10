@@ -1,0 +1,20 @@
+<h1>Shops#show</h1>
+<p>Find me in app/views/shops/show.html.erb</p>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @product.name %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @product.price %>
+</p>
+
+
+<% @product.line_items.each do |item| %>
+  <%= item.quantity %>
+<% end %>
+
+<%= link_to 'Back', root_path %>

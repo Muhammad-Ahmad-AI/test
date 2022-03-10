@@ -1,0 +1,30 @@
+<h1>Cards#show</h1>
+<p>Find me in app/views/cards/show.html.erb</p>
+
+<%if @cart_items.count > 0 %>
+
+  <% @cart_items.each do |item| %>
+
+    <h3><%= item.product.name %></h3>
+    <h5><%= item.product.price %></h5>
+
+
+
+    <%= form_for item, remote: true do |f| %>
+
+        <%= f.hidden_field :product_id, :value => item.product.id %>
+        <%= f.number_field :quantity, :value => item.quantity.to_i %>
+        <%= f.submit "Update Card " %>
+
+        <%= link_to "Remove Items", line_item_path(item), method: :delete, remote: true%>
+
+    <% end %>
+    <h2>Subtotal: <%= item.total %></h2>
+
+  <% end %>
+<%else%>
+  <h2>No Items in Cart</h2>
+<%end%>
+
+
+<h3>Your current card value has a subtotal of: <%= current_cart.sub_total %></h3>

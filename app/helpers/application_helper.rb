@@ -1,7 +1,7 @@
 module ApplicationHelper
-  def current_order
-    if !session[:order_id].nil?
-        Cart.find(session[:order_id])
+  def current_cart
+    if !session[:cart_id].nil?
+        Cart.find(session[:cart_id])
     else
         Cart.new
     end
