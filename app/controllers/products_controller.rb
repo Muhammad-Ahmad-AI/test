@@ -92,9 +92,14 @@ class ProductsController < ApplicationController
     def filter_products
       @products = Product.where(user_id: current_user.id)
     end
+    
+    def set_post
+      @post = Post.with_attached_other_images.find(params[:id])
+    end
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:name, :description, :picture, :quantity, :price, :user_id)
+      params.require(:product).permit(:name, :description, :picture, :quantity, :price, :user_id,
+         :main_image, other_images: [])
     end
 end

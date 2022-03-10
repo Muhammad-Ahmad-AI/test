@@ -8,6 +8,7 @@ class LineItemsController < ApplicationController
     @line_item = @cart.line_items.new(cart_params)
     @line_item.save
     session[:cart_id] = @cart.id
+    redirect_to '/products'
 
     # if user_signed_in?
     #   @cart.cart_id = current_user.id
@@ -26,6 +27,7 @@ class LineItemsController < ApplicationController
     @line_item.update_attributes(cart_params)
     @line_items = current_cart.line_items
     @line_item.save
+    redirect_to '/carts'
 
   end
 
@@ -34,7 +36,7 @@ class LineItemsController < ApplicationController
     @line_item = current_cart.line_items.find(params[:id])
     @line_item.destroy
     @line_item.save
-
+    redirect_to '/carts'
 
     # @cart = current_cart
     # @line_item = @cart.line_items.find()

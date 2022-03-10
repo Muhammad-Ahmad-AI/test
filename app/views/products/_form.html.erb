@@ -11,36 +11,45 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name,  class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :description %>
-    <%= form.text_field :description %>
+    <%= form.text_field :description ,  class:"form-control"%>
   </div>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :picture %>
-    <%= form.text_field :picture %>
+    <%= form.text_field :picture,  class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :quantity %>
-    <%= form.number_field :quantity %>
+    <%= form.number_field :quantity,  class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :price %>
-    <%= form.number_field :price %>
+    <%= form.number_field :price , class:"form-control" %>
   </div>
 
   <div class="field form-group">
     <%= form.number_field :user_id,  class:"form-control", value: current_user.id, type: :hidden %>
   </div>
+  <div class="field form-group">
+  <%= form.label :main_image %>
+  <%= form.file_field :main_image,  class:"form-control" %>
+</div>
 
-  <div class="actions">
-    <%= form.submit %>
+<div class="field form-group">
+  <%= form.label :other_images %>
+  <%= form.file_field :other_images, multiple: true,  class:"form-control" %>
+</div>
+
+  <div class="actions btn">
+    <%= form.submit "Submit", class:'btn btn-secondary' %>
   </div>
 <% end %>

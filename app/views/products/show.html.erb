@@ -15,6 +15,10 @@
   <%= @product.picture %>
 </p>
 
+<% if @product.main_image.attached? %>
+ <%= image_tag @product.main_image %>
+<% end %>
+
 <p>
   <strong>Quantity:</strong>
   <%= @product.quantity %>
