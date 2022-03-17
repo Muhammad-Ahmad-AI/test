@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   get 'shops/index'
   get 'shops/show'
-  get 'carts', to: 'carts#show'
+  # resources :carts
+  get 'carts', to: 'carts#index'
   resources :comments
   resources :products
   devise_for :users
@@ -9,8 +10,9 @@ Rails.application.routes.draw do
     resources :comments
   end
   resources :line_items
-  resource :carts, only:[:show]
-  resources :shops, only:[:index, :show]
-  root 'shops#index'
+  # resource :carts, only:[:show]
+
+  resources :shops, only:[:index]
+  root 'products#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

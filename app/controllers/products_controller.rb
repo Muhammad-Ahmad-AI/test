@@ -71,11 +71,6 @@ class ProductsController < ApplicationController
     render :index
   end
 
-  # def my_products
-  # end
-
-
-
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -89,13 +84,6 @@ class ProductsController < ApplicationController
       end
     end
 
-    def filter_products
-      @products = Product.where(user_id: current_user.id)
-    end
-    
-    def set_post
-      @post = Post.with_attached_other_images.find(params[:id])
-    end
 
     # Only allow a list of trusted parameters through.
     def product_params

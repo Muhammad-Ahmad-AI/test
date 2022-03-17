@@ -9,4 +9,9 @@ class User < ApplicationRecord
   has_many :comments
   has_one :cart
   has_many :line_items, as: :line_itemable
+  # after_create :email_user
+
+  def email_user
+    UserMailer.welcome_email(self).deliver
+  end
 end

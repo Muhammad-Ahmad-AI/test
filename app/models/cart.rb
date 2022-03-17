@@ -1,7 +1,6 @@
 class Cart < ApplicationRecord
-  belongs_to :user
-  has_many :line_items , as: :line_itemable
-  # , dependent: :destroy
+  belongs_to :user ,  optional: true  # optional: true  =>  user can be nil
+  has_many :line_items , as: :line_itemable, dependent: :destroy
   has_many :products, through: :line_items
   before_save :set_subtotal
 

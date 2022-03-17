@@ -1,6 +1,11 @@
+
+<%if @product.user_id==current_user.id %>
 <h1>Editing Product</h1>
+  <%= render 'form', product: @product %>
 
-<%= render 'form', product: @product %>
-
-<%= link_to 'Show', @product %> |
-<%= link_to 'Back', products_path %>
+    <%= link_to 'Show', @product %> |
+    <%= link_to 'Back', products_path %>
+<% else %>
+<h1>Page Not Found</h1>
+  <%= link_to 'Back', products_path %>
+<% end %>

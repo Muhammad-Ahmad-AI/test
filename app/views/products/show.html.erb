@@ -1,74 +1,94 @@
+<main class="product-container">
+  <div class="left-column">
+
+  <% if @product.main_image.attached? %>
+    <%= image_tag @product.main_image,class:'active card-img-show' %>
+  <% end %>
+
+  </div>
+  <!-- Right Column -->
+  <div class="right-column">
+
+    <!-- Product Description -->
+    <div class="product-description">
+      <span>Categories Will be Display Here</span>
+      <h1><%= @product.name %></h1>
+      <p>  <%= @product.description %></p>
+    </div>
+
+    <!-- Product Configuration -->
+    <div class="product-configuration">
+
+    <!-- Product Pricing -->
+    <div class="product-price">
+      <span><%=@product.price%>$</span>
+      <% if @product.quantity > 0 %>
+        <% if @product.user_id != current_user.id %>
+              <form action="/line_items" method="post">
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="line_item[product_id]" value="<%= @product.id %>">
+              <input type="hidden" name="line_item[quantity]" value="1">
+              <input type="submit" value="Add to Cart" class="btn card-btn btn-primary ">
+              </form>
+          <%end%>
+          <% else %>
+              Out of stock
+          <% end %>
+    </div>
+  </div>
+</main>
 
 
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
+<%if current_user %>
+  <%if @product.user_id != current_user.id %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @product.description %>
-</p>
-
-<p>
-  <strong>Picture:</strong>
-  <%= @product.picture %>
-</p>
-
-<% if @product.main_image.attached? %>
- <%= image_tag @product.main_image %>
-<% end %>
-
-<p>
-  <strong>Quantity:</strong>
-  <%= @product.quantity %>
-</p>
-
-<p>
-  <strong>Price:</strong>
-  <%= @product.price %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @product.user %>
-</p>
-
-
-
-<%if current_user%>
-<%if @product.user_id != current_user.id %>
-<form action="/products/<%= @product.id %>/comments" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <label for="content">Comment:</label>
-  <input type="text" name="comment[content]" id="content">
-  <input type="submit" value="Submit">
-</form>
-
-<div class="card mb-3">
+  <div class="card mb-3">
     <div class="card-header">
         <h4>Comments:</h4>
     </div>
-    <%# NOTE COMMENT STEP 3: Wrap the comments in `<div id="comments">` so that you can select the wrapper when using javascript in `app/views/comments/create.js.erb`. %>
+
     <div id="comments" class="card-body">
         <%= render @product.comments %>
         <%= render "comments/form", product: @product %>
     </div>
-</div>
-<%else%>
+  </div>
+  <%else%>
 
-<h1>You cannot Add Comment</h1>
+  <h1>You cannot Add Comment</h1>
+  <br>
+  <div class="card mb-3">
+    <div class="card-header">
+        <h4>Comments:</h4>
+    </div>
+
+    <div id="comments" class="card-body">
+        <%= render @product.comments %>
+    </div>
+  </div>
+  <%end%>
 
 <%end%>
 
+<%if !current_user %>
+  <h1>You must be logged in to add comment</h1>
+  <br>
+  <div class="card mb-3">
+    <div class="card-header">
+        <h4>Comments:</h4>
+    </div>
+
+    <div id="comments" class="card-body">
+        <%= render @product.comments %>
+    </div>
+  </div>
 <%end%>
 
 
-
-
-
 <br>
-<br>
+<%if current_user%>
+  <%if @product.user_id==current_user.id %>
+    <%= link_to 'Edit', edit_product_path(@product) %>   |
+  <%end%>
+<%end%>
 
-<%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>

@@ -1,8 +1,17 @@
-
+<!--
+<div class="form-group green-border-focus">
 <form action="<%= product_comments_path(product)%>" method="post">
-
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <%# <input type="text" name="comment[content]" id="content"> %>
-  <textarea name="comment[content]" cols="30" rows="10"></textarea>
-  <input type="submit" value="Submit">
+  <textarea id="form7" class="md-textarea form-control m-b" rows="3" name="comment[content]"></textarea>
+  <input type="submit" value="Submit" class="btn btn-secondary">
 </form>
+</div>
+ -->
+
+
+<%= form_with model: @comment, url:product_comments_path(product) do |f| %>
+
+  <%= f.text_field :content,  class: "form-control"%>
+  <%= f.submit "Comment", class: "btn btn-primary"%>
+<% end %>

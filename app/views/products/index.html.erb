@@ -1,29 +1,28 @@
 <h1>Products</h1>
 <div class="product-container ">
-    <% @products.each do |product| %>
+  <% @products.each do |product| %>
        <div class="product-card card primary">
         <% if product.main_image.attached? %>
           <%= image_tag product.main_image,class:'card-img' %>
         <%else%>
-          <img src="img/service3.png" alt="#{product.name}">
+          <img src="img/service3.png" alt="<%=product.name%>">
         <% end %>
-
           <h2><%= product.name %> <span><%= product.price %></span></h2>
           <h4><%= product.description %></h4>
-          <%= link_to 'Show', product %>
+
           <% if product.quantity > 0 %>
-            <%# <%= link_to 'Add to cart', cart_path(product_id: product.id) %> %>
               <form action="/line_items" method="post">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <input type="hidden" name="line_item[product_id]" value="<%= product.id %>">
               <input type="hidden" name="line_item[quantity]" value="1">
               <input type="submit" value="Add to Cart" class="btn btn-primary">
               </form>
-
+              <%= link_to 'Show', product, class:'btn' %>
           <% else %>
               Out of stock
           <% end %>
+          <br>
        </div>
-    <% end %>
+  <% end %>
 </div>
 <br>

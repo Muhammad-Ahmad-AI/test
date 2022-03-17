@@ -1,1 +1,49 @@
-<%=  "#{current_cart.sub_total}$"%>
+<div class="card">
+  <div class="card-header text-center">
+    Cart
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Line items</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Produt</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% current_cart.line_items.each do |line_item| %>
+          <tr>
+            <td><%= line_item.product.name %></td>
+            <td><%= form_for line_item, remote: true do |f| %>
+
+        <%= f.hidden_field :product_id, :value => line_item.product.id %>
+        <%= f.number_field :quantity, :value => line_item.quantity.to_i, min:1 %>
+        <%= f.submit "Update Card",class: 'btn btn-primary' %>
+        <%end%>
+        </td>
+            <td><%= number_to_currency(line_item.unit_price) %></td>
+            <td><%= number_to_currency(line_item.total) %></td>
+            <td>
+              <%= link_to "Remove", line_item_path(line_item), method: :delete, id: 'delete' , remote: true, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } %>
+             <!-- <%= link_to line_item_path(line_item), method: :delete , remote: true, class: do%>
+                <span id="del" class="fa fa-trash">
+              <% end %> -->
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+    <h5 class="card-title">Total: <%= number_to_currency(current_cart.sub_total) %></h5>
+
+    <%= link_to "Continue shopping", products_path, class: 'btn btn-primary' %>
+    <% unless current_cart.line_items.empty? %>
+      <%# <%= link_to "Checkout", paypal_checkouts_path, class: 'btn btn-success', method: :post  %> %>
+    <% end  %>
+  </div>
+</div>

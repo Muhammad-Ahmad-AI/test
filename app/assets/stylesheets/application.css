@@ -14,6 +14,8 @@
  *= require_self
  */
 .card-img {
-  width: 70%;
-  height: 150 px;
+  width: 500px;
+  height: 300px;
 }
+
+

@@ -24,7 +24,7 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     # @comment = Comment.new(comment_params_p)
-    @comment = current_user.comments.new(comment_params_p)
+    @comment = current_user.comments.new(comment_params)
     if !@comment.save
       flash[:error] = @comment.errors.full_messages
     end
@@ -88,12 +88,13 @@ class CommentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def comment_params_p
-      
+
       params.require(:comment).permit(:content).merge(product_id: params[:product_id])
     end
 
     def comment_params
-      params.require(:comment).permit(:content, :user_id ,:product_id)
+
+      params.permit(:content, :product_id)
     end
 
 end
