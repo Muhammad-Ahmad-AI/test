@@ -1,3 +1,4 @@
 $('.del').bind('ajax:success', function() {
     $(this).closest('tr').fadeOut();
 });
+$('carts_item').html("<%= escape_javascript(render('carts/carts'))%>")

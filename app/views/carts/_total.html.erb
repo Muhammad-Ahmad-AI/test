@@ -40,7 +40,6 @@
   </div>
   <div class="card-footer">
     <h5 class="card-title">Total: <%= number_to_currency(current_cart.sub_total) %></h5>
-
     <%= link_to "Continue shopping", products_path, class: 'btn btn-primary' %>
     <% unless current_cart.line_items.empty? %>
       <%# <%= link_to "Checkout", paypal_checkouts_path, class: 'btn btn-success', method: :post  %> %>

@@ -8,4 +8,14 @@ class Product < ApplicationRecord
   has_many :orders, through: :line_items
   has_one_attached :main_image
   has_many_attached :other_images
+
+  def self.search(search)
+    if search
+      # Product.find(:all, :conditions => ['name LIKE ?', "%#{search}%"])
+      where('name LIKE ?', "%#{search}%")
+    else
+      all
+    end
+  end
+
 end
