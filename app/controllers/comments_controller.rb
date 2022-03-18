@@ -32,29 +32,7 @@ class CommentsController < ApplicationController
       redirect_to product_path(params[:product_id])
     end
 
-    # @comment = Comment.new(comment_params)
 
-    # respond_to do |format|
-    # #   if @comment.save
-    # #     format.html { redirect_to comment_url(@comment), notice: "Comment was successfully created." }
-    # #     format.json { render :show, status: :created, location: @comment }
-    # #   else
-    # #     format.html { render :new, status: :unprocessable_entity }
-    # #     format.json { render json: @comment.errors, status: :unprocessable_entity }
-    # #   end
-    # # end
-    # @comment = @post.comments.create(comment_params)
-    # respond_to do |format|
-    #     if  @comment.save
-    #         format.html { redirect_to @product, notice: 'Comment was successfully created.' }
-    #         # NOTE COMMENT STEP 1: This will run the code in `app/views/comments/create.js.erb`.
-    #         format.js
-    #     else
-    #         format.html { render action: "new" }
-    #         # NOTE COMMENT STEP 1: This will run the code in `app/views/comments/create.js.erb`.
-    #         format.js
-    #     end
-    # end
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json
@@ -77,6 +55,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
       format.json { head :no_content }
+
     end
   end
 
@@ -87,10 +66,9 @@ class CommentsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def comment_params_p
-
-      params.require(:comment).permit(:content).merge(product_id: params[:product_id])
-    end
+    # def comment_params_p
+    #   params.require(:comment).permit(:content).merge(product_id: params[:product_id])
+    # end
 
     def comment_params
 

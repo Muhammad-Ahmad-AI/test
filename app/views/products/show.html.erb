@@ -22,15 +22,14 @@
     <!-- Product Pricing -->
     <div class="product-price">
       <span><%=@product.price%>$</span>
-      <% if @product.quantity > 0 %>
-        <% if @product.user_id != current_user.id %>
+      <% if @product.quantity > 0%>
               <form action="/line_items" method="post">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <input type="hidden" name="line_item[product_id]" value="<%= @product.id %>">
               <input type="hidden" name="line_item[quantity]" value="1">
               <input type="submit" value="Add to Cart" class="btn card-btn btn-primary ">
               </form>
-          <%end%>
+
           <% else %>
               Out of stock
           <% end %>

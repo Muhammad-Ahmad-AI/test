@@ -29,9 +29,9 @@
             <td><%= number_to_currency(line_item.total) %></td>
             <td>
               <%= link_to "Remove", line_item_path(line_item), method: :delete, id: 'delete' , remote: true, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } %>
-             <!-- <%= link_to line_item_path(line_item), method: :delete , remote: true, class: do%>
-                <span id="del" class="fa fa-trash">
-              <% end %> -->
+              <%# <%= link_to line_item_path(line_item), method: :delete , remote: true, class: do%> %>
+                <%# <span id="del" class="fa fa-trash"> %>
+              <%# <% end %> %>
             </td>
           </tr>
         <% end %>
