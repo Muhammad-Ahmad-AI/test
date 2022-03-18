@@ -41,8 +41,7 @@ class LineItemsController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to '/carts' }
     end
 
   end

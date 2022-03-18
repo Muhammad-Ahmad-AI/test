@@ -1,6 +1,3 @@
-
-$('#card').html("<%= escape_javascript(render('carts/carts'))%>")
-$('#card-item').html("<%= escape_javascript(render('carts/carts_item'))%>")
-$('#delete').bind('ajax:success', function() {
-    $(this).closest('tr').fadeOut()
+$('.del').bind('ajax:success', function() {
+    $(this).closest('tr').fadeOut();
 });
