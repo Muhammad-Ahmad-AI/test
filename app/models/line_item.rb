@@ -6,10 +6,7 @@ class LineItem < ApplicationRecord
   before_save :set_total
   validates :product_id, presence: true
   validates :quantity,presence: true, numericality: { greater_than: 0 }
-  validates :line_itemable_id, presence: true
-  validates :line_itemable_type, presence: true
-  validates :total_price, presence: true, numericality: { greater_than: 0 }
-  validates :unit_price, presence: true,  numericality: { greater_than: 0 }
+
 
   def unit_price
       if persisted?
