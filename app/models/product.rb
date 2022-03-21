@@ -8,6 +8,11 @@ class Product < ApplicationRecord
   has_many :orders, through: :line_items
   has_one_attached :main_image
   has_many_attached :other_images
+  validates :name, presence: true
+  validates :description, presence: true
+  validates :quantity, presence: true
+  validates :price, presence: true
+  validates :main_image, presence: true
 
   def self.search(search)
     if search
@@ -16,6 +21,14 @@ class Product < ApplicationRecord
     else
       all
     end
+  end
+
+  def image_resize
+    return self.main_image.variant(resize: '300x300!').processed
+  end
+
+  def image_resize_other
+    return self.other_images.variant(resize: '300x300!').processed
   end
 
 end

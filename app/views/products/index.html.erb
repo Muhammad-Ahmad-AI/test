@@ -3,7 +3,7 @@
   <% @products.each do |product| %>
        <div class="product-card card primary">
         <% if product.main_image.attached? %>
-          <%= image_tag product.main_image,class:'card-img' %>
+          <%= image_tag product.image_resize,class:'card-img' %>
         <%else%>
           <img src="img/service3.png" alt="<%=product.name%>">
         <% end %>

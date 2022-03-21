@@ -12,6 +12,7 @@ class Order < ApplicationRecord
 
   before_save :set_total
   before_save :set_status
+  
   # after_create :email_user
 
   def email_user

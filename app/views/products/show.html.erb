@@ -2,7 +2,7 @@
   <div class="left-column">
 
   <% if @product.main_image.attached? %>
-    <%= image_tag @product.main_image,class:'active card-img-show' %>
+    <%= image_tag @product.image_resize ,class:'active card-img-show' %>
   <% end %>
 
   </div>

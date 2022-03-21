@@ -1,10 +1,15 @@
 class LineItem < ApplicationRecord
-	validates :quantity, numericality: { greater_than: 0 }
+
   belongs_to :product
   belongs_to :line_itemable, polymorphic: true
   before_save :set_unit_price
   before_save :set_total
-
+  validates :product_id, presence: true
+  validates :quantity,presence: true, numericality: { greater_than: 0 }
+  validates :line_itemable_id, presence: true
+  validates :line_itemable_type, presence: true
+  validates :total_price, presence: true, numericality: { greater_than: 0 }
+  validates :unit_price, presence: true,  numericality: { greater_than: 0 }
 
   def unit_price
       if persisted?
