@@ -11,6 +11,7 @@ class LineItemsController < ApplicationController
     @cart.line_items.each do |line_item|
       if line_item.product_id == cart_params[:product_id].to_i
          line_item.quantity +=1
+         line_item.product.decrement!(:quantity)
          line_item.save
          @i=1
       end
@@ -19,6 +20,7 @@ class LineItemsController < ApplicationController
       redirect_to '/products'
     else
     @line_item = @cart.line_items.new(cart_params)
+    @line_item.product.decrement!(:quantity)
     @line_item.save
     session[:cart_id] = @cart.id
     redirect_to '/products'
@@ -28,8 +30,15 @@ class LineItemsController < ApplicationController
   def update
     @cart = current_cart
     @line_item = @cart.line_items.find(params[:id])
+    p_quantity = @line_item.quantity
     @line_item.update_attributes(cart_params)
-    @line_items = current_cart.line_items
+    u_quantity = @line_item.quantity
+    if p_quantity > u_quantity
+      @line_item.product.decrement!(:quantity, u_quantity - p_quantity)
+    elsif p_quantity < u_quantity
+      @line_item.product.increment!(:quantity, p_quantity - u_quantity)
+    end
+
     @line_item.save
     redirect_to '/carts'
   end
@@ -37,6 +46,7 @@ class LineItemsController < ApplicationController
   def destroy
     @cart = current_cart
     @line_item = current_cart.line_items.find(params[:id])
+    @line_item.product.increment!(:quantity, @line_item.quantity)
     @line_item.destroy
 
     respond_to do |format|
