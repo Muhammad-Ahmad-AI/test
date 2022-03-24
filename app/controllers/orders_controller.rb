@@ -73,27 +73,3 @@ class OrdersController < ApplicationController
 
 end
 
-
-
-
-  # def PayPal
-  #   @payment = PayPal::SDK::REST::Payment.new({
-  #     intent: "sale",
-  #     payer: {
-  #       payment_method: "paypal" },
-  #     redirect_urls: {
-  #       return_url: success_orders_url,
-  #       cancel_url: root_url },
-  #     transactions: [ {
-  #       amount: {
-  #         total: "<%= current_cart.total_price %>",
-  #         currency: "USD" },
-  #       description: "ExpressBot Payment" } ] } )
-  #   if @payment.create
-  #     redirect_url = @payment.links.find {|link| link.rel == 'approval_url'}
-  #     redirect_to redirect_url.href
-  #     return @payment.id
-  #   else
-  #     redirect_to root_url, notice: @payment.error
-  #   end
-  # end
