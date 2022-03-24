@@ -13,43 +13,40 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new()
     @order.user_id = current_user.id
-    @order.stripe_charge_id= PayPal.to_s
+    @order.stripe_charge_id= perform_stripe_charge
     @order.save
     add_line_items_to_order(@order)
     # @order.save
 
   end
 
-  def PayPal
-    @payment = PayPal::SDK::REST::Payment.new({
-      intent: "sale",
-      payer: {
-        payment_method: "paypal" },
-      redirect_urls: {
-        return_url: success_orders_url,
-        cancel_url: root_url },
-      transactions: [ {
-        amount: {
-          total: "<%= current_cart.total_price %>",
-          currency: "USD" },
-        description: "ExpressBot Payment" } ] } )
-    if @payment.create
-      redirect_url = @payment.links.find {|link| link.rel == 'approval_url'}
-      redirect_to redirect_url.href
-      return @payment.id
-    else
-      redirect_to root_url, notice: @payment.error
-    end
+
+
+  # stripe payment method
+  def perform_stripe_charge
+    # Amount in cents
+    @amount = @current_cart.total_price * 100
+
+    customer = Stripe::Customer.create(
+      :email => params[:stripeEmail],
+      :source  => params[:stripeToken]
+    )
+
+    charge = Stripe::Charge.create(
+      :customer    => customer.id,
+      :amount      => @amount,
+      :description => 'Rails Stripe customer',
+      :currency    => 'usd'
+    )
+
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to '/carts'
   end
 
-  def update_data
-    @cart = current_cart
-    @line_item = @cart.line_items.find(params[:id])
-    @line_item.update_attributes(cart_params)
-    @line_items = current_cart.line_items
-    @line_item.save
-    redirect_to '/carts'
-  end
+
+
+
 
   def add_line_items_to_order(@order)
     line_item_ids = @current_cart.line_items.pluck(:id)
@@ -75,3 +72,28 @@ class OrdersController < ApplicationController
 
 
 end
+
+
+
+
+  # def PayPal
+  #   @payment = PayPal::SDK::REST::Payment.new({
+  #     intent: "sale",
+  #     payer: {
+  #       payment_method: "paypal" },
+  #     redirect_urls: {
+  #       return_url: success_orders_url,
+  #       cancel_url: root_url },
+  #     transactions: [ {
+  #       amount: {
+  #         total: "<%= current_cart.total_price %>",
+  #         currency: "USD" },
+  #       description: "ExpressBot Payment" } ] } )
+  #   if @payment.create
+  #     redirect_url = @payment.links.find {|link| link.rel == 'approval_url'}
+  #     redirect_to redirect_url.href
+  #     return @payment.id
+  #   else
+  #     redirect_to root_url, notice: @payment.error
+  #   end
+  # end

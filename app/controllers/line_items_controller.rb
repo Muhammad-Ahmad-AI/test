@@ -31,13 +31,29 @@ class LineItemsController < ApplicationController
     @cart = current_cart
     @line_item = @cart.line_items.find(params[:id])
     p_quantity = @line_item.quantity
-    @line_item.update_attributes(cart_params)
-    u_quantity = @line_item.quantity
-    if p_quantity > u_quantity
-      @line_item.product.decrement!(:quantity, u_quantity - p_quantity)
-    elsif p_quantity < u_quantity
-      @line_item.product.increment!(:quantity, p_quantity - u_quantity)
+    # check is the product quantity is enough
+    if @line_item.product.quantity >= params[:line_item][:quantity].to_i
+      @line_item.update_attributes(cart_params)
+      u_quantity = @line_item.quantity
+      if p_quantity > u_quantity
+        @line_item.product.decrement!(:quantity, u_quantity - p_quantity)
+      elsif p_quantity < u_quantity
+        @line_item.product.increment!(:quantity, p_quantity - u_quantity)
+      end
+      # @line_item.update(cart_params)
+      # @line_item.product.decrement!(:quantity, p_quantity)
+      # @line_item.product.increment!(:quantity, params[:line_item][:quantity].to_i - p_quantity)
+
+    else
+      flash[:notice] = 'The product quantity is not enough'
     end
+    # @line_item.update_attributes(cart_params)
+    # u_quantity = @line_item.quantity
+    # if p_quantity > u_quantity
+    #   @line_item.product.decrement!(:quantity, u_quantity - p_quantity)
+    # elsif p_quantity < u_quantity
+    #   @line_item.product.increment!(:quantity, p_quantity - u_quantity)
+    # end
 
     @line_item.save
     redirect_to '/carts'

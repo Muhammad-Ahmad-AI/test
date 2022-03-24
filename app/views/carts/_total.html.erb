@@ -29,9 +29,7 @@
             <td><%= number_to_currency(line_item.total) %></td>
             <td>
               <%= link_to "Remove", line_item_path(line_item), method: :delete, id: 'delete' , class: 'btn btn-danger del', data: { confirm: 'Are you sure?' , remote: true } %>
-              <%# <%= link_to line_item_path(line_item), method: :delete , remote: true, class: do%> %>
-                <%# <span id="del" class="fa fa-trash"> %>
-              <%# <% end %> %>
+
             </td>
           </tr>
         <% end %>
@@ -42,7 +40,7 @@
     <h5 class="card-title">Total: <%= number_to_currency(current_cart.sub_total) %></h5>
     <%= link_to "Continue shopping", products_path, class: 'btn btn-primary' %>
     <% unless current_cart.line_items.empty? %>
-      <%# <%= link_to "Checkout", paypal_checkouts_path, class: 'btn btn-success', method: :post  %> %>
+      <%= link_to "Checkout", root_path, class: 'btn btn-success', method: :post  %>
     <% end  %>
   </div>
 </div>

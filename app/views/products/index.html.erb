@@ -2,25 +2,32 @@
 <div class="product-container ">
   <% @products.each do |product| %>
        <div class="product-card card primary">
-        <% if product.main_image.attached? %>
-          <%= image_tag product.image_resize,class:'card-img' %>
-        <%else%>
-          <img src="img/service3.png" alt="<%=product.name%>">
-        <% end %>
-          <h2><%= product.name %> <span><%= product.price %></span></h2>
-          <h4><%= product.description %></h4>
 
-          <% if product.quantity > 0 %>
+          <% if product.main_image.attached? %>
+            <%= image_tag product.image_resize,class:'card-img' %>
+          <%else%>
+            <img src="img/service3.png" alt="<%=product.name%>">
+          <% end %>
+            <h2><%= product.name %> <span><span><%=product.price%>$</span></span></h2>
+            <h4><%= product.description %></h4>
+          <%if user_signed_in? && product.user_id==current_user.id %>
+              you cannot add your own product to cart
+          <%else%>
+            <% if product.quantity > 0 %>
               <form action="/line_items" method="post">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <input type="hidden" name="line_item[product_id]" value="<%= product.id %>">
               <input type="hidden" name="line_item[quantity]" value="1">
               <input type="submit" value="Add to Cart" class="btn btn-primary">
               </form>
-              <%= link_to 'Show', product, class:'btn' %>
-          <% else %>
+
+
+            <% else %>
               Out of stock
-          <% end %>
+            <% end %>
+
+            <%end%>
+            <%= link_to 'Show', product, class:'btn' %>
           <br>
        </div>
   <% end %>
